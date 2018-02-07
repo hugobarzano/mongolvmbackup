@@ -181,8 +181,8 @@ create_lvsnap() {
 # set the mdb version limt above which it isn't required db.fsyncLock
 MDBVERLIMIT="320"
 MDBENGINELIMIT="wiredTiger"
-if [ "$MDBVERLIMIT" -ge "$MDBVERSION" ] && [ "$MDBENGINELIMIT" == "$MDBENGINE" ]; then
-    echo "$MDBVERLIMIT >= $MDBVERSION and the engine is $MDBENGINE so fsyncLock is not required!"
+if [ "$MDBVERSION" -ge "$MDBVERLIMIT" ] && [ "$MDBENGINELIMIT" == "$MDBENGINE" ]; then
+    echo "$MDBVERSION >= $MDBVERLIMIT and the engine is $MDBENGINE so fsyncLock is not required!"
     # CREATE THE SNAPSHOT
     create_lvsnap
 else
