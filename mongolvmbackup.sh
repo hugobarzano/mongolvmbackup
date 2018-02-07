@@ -159,10 +159,9 @@ fi
 date=`date +%F_%H%M`
 targetfile="${volume}-${date}-snap.${COMPRESS_SUFFIX}"
 
-# Get the MDB version
-MDBVERSION=`mongo --quiet --eval "db.version()" | tr -d "."`
-# Get the MDB engine
-MDBENGINE=`mongo $OPTION --eval "printjson(db.serverStatus().storageEngine)" | grep -oP wiredTiger`
+starttime=$(date +%s)
+
+echo "$(date +%FT%T%Z) Starting backup"
 
 # =============================================================================
 # Print a meaningful banner!
@@ -175,6 +174,14 @@ echo "  Target:       ${TARGET_DIR}/${targetfile}"
 echo
 
 
+# Get the MDB version
+MDBVERSION=`mongo --quiet $OPTION --eval "db.version()" | tr -d "."`
+# Get the MDB engine
+MDBENGINE=`mongo $OPTION --eval "printjson(db.serverStatus().storageEngine)" | grep -oP wiredTiger`
+
+echo "  Mongo version:  $MDBVERSION"
+echo "  Mongo engined:  $MDBENGINE"
+echo
 
 # Create target dir if not exist
 if [ ! -d "$TARGET_DIR" ]
@@ -257,4 +264,8 @@ lvremove -f "/dev/${vgroup}/${snapvol}"
 echo
 echo
 
+endtime=$(date +%s)
+exectime=$(expr $endtime - $starttime)
+
+echo "$(date +%FT%T%Z) Finished ($exectime secs)"
 
