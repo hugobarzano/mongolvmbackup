@@ -60,6 +60,12 @@ COMPRESS_PROG=gzip
 COMPRESS_SUFFIX=tgz
 COMPRESS_LEVEL=6
 
+# Hostname to access the mongo server
+# DBHOST=""
+
+# Port to access the mongo server
+# DBPORT=27017
+
 # Username to access the mongo server e.g. dbuser
 # Unnecessary if authentication is off
 # DBUSERNAME=""
@@ -89,6 +95,13 @@ print_help() {
 # OPTIONS for mongo connection if enabled
 # Do we need to use a username/password?
 OPTION=""
+if [ "$DBHOST" ]; then
+    OPTION="$OPTION --host=$DBHOST"
+fi
+if [ "$DBPORT" ]; then
+    OPTION="$OPTION --port=$DBPORT"
+fi
+
 if [ "$DBUSERNAME" ]; then
     OPTION="$OPTION --username=$DBUSERNAME --password=$DBPASSWORD"
     if [ "$DBAUTHDB" ]; then
