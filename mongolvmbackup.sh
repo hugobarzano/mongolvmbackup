@@ -147,7 +147,7 @@ date=`date +%F_%H%M`
 targetfile="${volume}-${date}-snap.${COMPRESS_SUFFIX}"
 
 # Get the MDB version
-MDBVERSION=`mongo --eval "db.version()" | awk 'NR==3' | tr -d "."`
+MDBVERSION=`mongo --quiet --eval "db.version()" | tr -d "."`
 # Get the MDB engine
 MDBENGINE=`mongo $OPTION --eval "printjson(db.serverStatus().storageEngine)" | grep -oP wiredTiger`
 
